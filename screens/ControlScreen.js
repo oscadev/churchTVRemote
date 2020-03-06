@@ -19,7 +19,7 @@ const ControlPanel = (props) => {
         console.log('USER PARAM', props.navigation.getParam('user'))
         setUser(props.navigation.getParam('user'))
         setServer(new OBSWebSocket)
-        // getChurchMode();
+
 
     },[]);
 
@@ -63,10 +63,10 @@ const ControlPanel = (props) => {
                 console.log("ERROR IN CATCH IS:" , err.error)
                 switch (err.error){
                     case "Authentication Failed.":
-                        console.log('wrong password')
+                        alert('wrong password')
                         break;
                     case "Connection error.":
-                        console.log('Make sure that OBS is running')
+                        alert('Make sure that OBS is running')
                         break;
                     
                 }
@@ -147,7 +147,11 @@ const ControlPanel = (props) => {
         <SafeAreaView>
             <LinearGradient style={styles.controlPanel} start={{x: 0, y: 0}} end={{x: 1, y: 1}} colors={['#1b4264', '#3784c8']}>
                 <Controls nav={props.navigation} streaming={isStreaming} recording={isRecording} toggle={toggleStreamRecord}/>
-                <Scenes data={sceneData} server={server}/>
+                <View style={styles.body}>
+                    <Scenes data={sceneData} server={server}/>
+
+                </View>
+                
                 <View style={{justifyContent:'flex-start', width:"100%", flexDirection:'row'}}>
                     <Status status={StreamStatus}/>
                     <Status status={StreamStatus}/>
@@ -167,8 +171,13 @@ const styles = StyleSheet.create({
     controlPanel: {
 
          justifyContent:'flex-start',
+
          alignItems:'center',
          minHeight:'100%'
 
+    },
+    body: {
+        width: '100%',
+        height:400,
     }
 })

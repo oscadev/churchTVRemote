@@ -31,7 +31,7 @@ const AppNavigator = createStackNavigator({
     headerShown: false
   }},
   Home: {screen: HomeScreen},
-  Settings: {screen:SettingsScreen},
+  Scheduler: {screen:SettingsScreen},
   
 });
 

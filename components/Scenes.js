@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, SafeAreaView, ActivityIndicator, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import { useHeaderHeight } from 'react-navigation-stack';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Scenes = (props) => {
     const [current, setCurrent] = React.useState('qwert');
@@ -44,11 +45,14 @@ const Scenes = (props) => {
     },[props.data])
 
     return (
-        <View style={styles.scenes}>
-            {sceneDivs}
+        <View style={{height:"100%"}}>
+            <ScrollView style={styles.scenes}>
+                {sceneDivs}
 
 
+            </ScrollView>
         </View>
+        
     )
 }
 
@@ -56,10 +60,12 @@ export default Scenes;
 
 const styles = StyleSheet.create({
     scenes: {
-        width:'100%',
-        flexWrap:'wrap',
-        flexDirection:'row',
-        height:Dimensions.get('screen').height /3,
+        // width:'100%',
+        // flexWrap:'wrap',
+        flexDirection:'column',
+        height:'100%',
+
+
         borderTopWidth:.5,
         borderColor:'white',
         borderLeftWidth:.5
@@ -67,8 +73,8 @@ const styles = StyleSheet.create({
     box: {
         justifyContent:'center',
         alignItems:'center',
-        width:'50%',
-        height: '33.33%',
+        width:"33.33%",
+        height: 100,
         borderColor: 'white',
         borderRightWidth:.5,
         borderBottomWidth:.5
