@@ -1,10 +1,12 @@
 import React from 'react';
+import Zeroconf from 'react-native-zeroconf'
 import {View, Text, SafeAreaView, ActivityIndicator, StyleSheet, StatusBar} from 'react-native';
 import OBSWebSocket from 'obs-websocket-js';
 import Scenes from '../components/Scenes';
 import LinearGradient from 'react-native-linear-gradient';
 import Controls from '../components/Controls';
 import { Status } from '../components/Status';
+
 
 const ControlPanel = (props) => {
     const [server, setServer] = React.useState(null);
@@ -13,15 +15,42 @@ const ControlPanel = (props) => {
     const [isStreaming, setIsStreaming] = React.useState(false);
     const [isRecording, setIsRecording] = React.useState(false);
     const [user, setUser] = React.useState(null);
+    const [ip, setIp] = React.useState(null)
 
 
+    
+    
+
+    //GET IP
     React.useEffect(()=>{
-        console.log('USER PARAM', props.navigation.getParam('user'))
-        setUser(props.navigation.getParam('user'))
-        setServer(new OBSWebSocket)
+        const zeroconf = new Zeroconf()
+        console.log('RAN GET IP ======================')
+        zeroconf.scan(type = 'http', protocol = 'tcp', domain = 'local.')
+
+            zeroconf.on('resolved', d=>{console.log('wooooooooooooo')
+                zeroconf.stop()
+                setIp(d.txt.OBSip)
+                
+                // console.log('USER PARAM', props.navigation.getParam('user'))
+                // setUser(props.navigation.getParam('user'))
+                
+            })
+        
+                
 
 
     },[]);
+
+    //MAKE OBS WEBSOCKET
+    React.useEffect(()=>{
+        if(ip){
+            // console.log('USER PARAM', props.navigation.getParam('user'))
+            setUser(props.navigation.getParam('user'))
+            setServer(new OBSWebSocket) 
+        }
+
+
+    },[ip])
 
     const setStream = (obj) => {
         let objSend = {
@@ -35,29 +64,33 @@ const ControlPanel = (props) => {
                 save:true
             }
         }
-        console.log("OBJ OBJECT BEFORE SENT",objSend.settings)
+        // console.log("OBJ OBJECT BEFORE SENT",objSend.settings)
         server.send('SetStreamSettings', objSend).then(d=>{
-            console.log("SETTINGS RETURERNED AFTER CHANGED:", d)
+            // console.log("SETTINGS RETURERNED AFTER CHANGED:", d)
             server.send('SaveStreamSettings')}).catch(err=>console.log(err))
     }
 
-    React.useEffect(()=>{
-        if(user){
-            
-        }
-    },[user])
+
 
     React.useEffect(()=>{
+
+
         if(server){
-            console.log("SERVER RAN")
+
+            console.log("SERVER RAN and IP is: ",ip)
+
+
             
-            server.connect({ address:'192.168.1.11:4444', password: 'qwertyuiop' })
+
+
+            
+            server.connect({ address:`${ip}:4444`, password: 'qwertyuiop' })
             .then(d=>{
                 console.log("HEEEEEE")
                 setStream(props.navigation.getParam('user'))
-                
-                getAll(server)
                 listenAll()
+                getAll(server)
+                
             })
             .catch(err => {
                 console.log("ERROR IN CATCH IS:" , err.error)
@@ -107,6 +140,8 @@ const ControlPanel = (props) => {
         server.on('error', err => {
             console.error('WHOOPSIE:', err);
         });
+        // server.on('ConnectionOpened', d=>getScenes(server));
+        // server.on('ConnectionClosed', console.log("DISCONNECTED"));
 
 
     }

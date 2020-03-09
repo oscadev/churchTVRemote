@@ -6,6 +6,7 @@ import { TextInput, Button } from 'react-native-paper';
 import Axios from 'axios';
 import logo from '../assets/logo.png'
 
+
 export const LoginScreen = (props) => {
     const [email, setEmail] = React.useState("steve@tipcard.me");
     const [password, setPassword] = React.useState("hello123");
@@ -14,7 +15,7 @@ export const LoginScreen = (props) => {
     const api1 = (em, pass) => {
         Axios.get(`https://streamingchurch.tv/streaming/api_admin_login.php?api_key=oscaranguianoapikeyforjslsolutions&admin_email=${em}&password=${pass}`)
         .then(d=>{
-            console.log(d.data)
+            // console.log(d.data)
             if(d.data.status==="success"){
                 setOrgId(d.data.org_id)
             }else{
@@ -27,7 +28,7 @@ export const LoginScreen = (props) => {
     const api2 = (id) => {
         Axios.get(`https://streamingchurch.tv/streaming/api_sctv_credentials.php?api_key=oscaranguianoapikeyforjslsolutions&org_id=${id}`)
         .then(d=>{
-            console.log(d.data)
+            // console.log(d.data)
             if(d.data.status==="success"){
                 props.navigation.navigate('Control', {user:d.data})
             }
@@ -82,6 +83,9 @@ export const LoginScreen = (props) => {
                 
                 <Button icon="" mode="contained" onPress={() => api1(email,password)} style={{backgroundColor:'green', marginTop:16}}>
                     Login
+                </Button>
+                <Button icon="" mode="contained" onPress={() => api1(email,password)} style={{backgroundColor:'green', marginTop:16}}>
+                    ge IP
                 </Button>
                 {/* <Image source={logo} style={{width:100, height:120}}/> */}
 
