@@ -6,11 +6,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import LinearGradient from 'react-native-linear-gradient';
 import store from 'react-native-simple-store';
+import Axios from 'axios';
+import Icon from "react-native-vector-icons/Feather"
 
 const SettingsScreen = (props) => {
     const [items, setItems] = React.useState([])
-    const [churchMode2, setChurchMode2] = React.useState(true)
-    const [churchMode3, setChurchMode3] = React.useState(true)
+    const [type, setType] = React.useState(null)
     const [time, setTime] = React.useState(new Date('December 17, 2020 10:00:00'));
     const [endTime, setEndTime] = React.useState(new Date('December 17, 2020 11:30:00'));
     const [day, setDay] = React.useState('Sunday')
@@ -21,38 +22,91 @@ const SettingsScreen = (props) => {
     const getData = () => {
         store.get('schedules')
         .then((res) => {
-            console.log("shcedules arr: ",res)
-            try{
-                if(res.length){
-                    makeItems(res)
+            console.log("shcedules arr: ",res, props.navigation.getParam('ip'))
+            Axios.post(`http://${props.navigation.getParam('ip')}:3020/schedules`, {"schedules":res}).then(d=>{
+                console.log("Schedules returned from post",d.data)
+                try{
+                if(d.data.length){
+                    makeItems(d.data)
+                }
+                else{
+                    makeItems([])
                 }
                 
             }
             catch(err){
                 console.log("caught:", err)
             }
+
+            })
+            
         }
             
         )
+    }
+
+    const removeScheduleItem = (index) =>
+    {
+        store.get('schedules').then(d=>
+            {
+                console.log("OBJ S LIKE 1:",d)
+                let temp = d.filter((e,i)=>
+                {
+                    if (index!==i)
+                    {
+                        return true
+                    }
+                })
+                console.log("OBJ S LIKE 2:",temp)
+                store.delete('schedules')
+                .then(async h=>
+                    {
+                        for(let ind = 0; ind<temp.length;ind++)
+                        {
+                            await store.push('schedules', temp[ind])
+                        }
+                        
+                    })
+                    .then(p=>
+                        {
+                            getData()
+                        })
+                
+
+            })
+            
     }
 
     const saveSchedule = (sch) => {
         store.push("schedules", sch).then(d=>getData())
         setModal(false)
         
+        
     }
 
     React.useEffect(()=>{
+
+        console.log("THIS SHOULD BE AN IP: =========> :", props.navigation.state.params)
         getData()
 
     },[])
 
     const makeItems = (arr) => {
         let temp = arr.map((e,i) => {
-            return (<View key={i} style={{width:350, height:48, backgroundColor:'white', justifyContent:'center', alignItems:'center'}}>
+            return (<View key={i} style={{width:350, height:48, backgroundColor:"white", justifyContent:'space-between', alignItems:'center', flexDirection:'row', padding:8, marginVertical:4}}>
+                <Text style={{backgroundColor:e.type==="stream"?"#7CFFE2":"#FFFF45", padding:8}}>
+                        {e.type.toUpperCase()}
+                    </Text>
                 <Text>
-                    {e.day.toUpperCase()} from {moment(e.start).format("hh:mm a")} to {moment(e.end).format("hh:mm a")}
+                      {e.day.toUpperCase().slice(0,3)} from {moment(e.start).format("hh:mm a")} to {moment(e.end).format("hh:mm a")}
                 </Text>
+                <TouchableOpacity onPress={()=>removeScheduleItem(i)} style={{width:48, height:'100%', borderColor:'red', justifyContent:'center', alignItems:'center'}}>
+                    <Icon
+                            name={'delete'}
+                            color="red"
+                            size={25}
+                    />
+                </TouchableOpacity>
             </View>)
             
        })
@@ -80,9 +134,24 @@ const SettingsScreen = (props) => {
                 {items}
             </View>
             
-            <Button title="add time" color="#3379B8" onPress={()=>setModal(!modal)}/>
-            <Button title="Test Store" color="#3379B8" onPress={()=>getData()}/>
-            <Button title="DELETE TEST" onPress={()=>store.delete("schedules")}/>
+            <Button title="Add Stream Schedule" color="#3379B8" onPress={()=>
+            {
+                setType('stream')
+                setModal(!modal)
+            }}
+            />
+            <Button title="Add Recording Schedule" color="#3379B8" onPress={()=>
+            {
+                setType('record')
+                setModal(!modal)
+            }}
+            />
+            {/* <Button title="Test Store" color="#3379B8" onPress={()=>getData()}/> */}
+            {/* <Button title="DELETE TEST" onPress={()=>{
+                
+                store.delete("schedules")
+                getData()
+                }}/> */}
             
 
             <Modal visible={modal} animationType='slide' transparent>
@@ -102,7 +171,7 @@ const SettingsScreen = (props) => {
                                     CANCEL
                                 </Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>saveSchedule({day:day, start:time, end:endTime})} containerStyle={{width:150, height:32, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
+                            <TouchableOpacity onPress={()=>saveSchedule({type:type, day:day, start:time, end:endTime})} containerStyle={{width:150, height:32, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
                                 <Text style={{color:'black'}}>
                                     SAVE
                                 </Text>
@@ -144,7 +213,7 @@ const SettingsScreen = (props) => {
                     
                     <View style={{backgroundColor:'white', width:(Dimensions.get('screen').width-100)/2}} >
                         <DateTimePicker 
-                     minuteInterval={15}
+                    //  minuteInterval={15}
                         value={time} 
                         onChange={(e,d)=>setTime(d)} 
                         mode="time"
@@ -155,7 +224,7 @@ const SettingsScreen = (props) => {
                     <View style={{backgroundColor:'#E3E3E3', width:(Dimensions.get('screen').width-100)/2}} >
                         <DateTimePicker 
                         style={{color:'red'}}
-                     minuteInterval={15}
+                    //  minuteInterval={15}
                         value={endTime} 
                         onChange={(e,d)=>setEndTime(d)} 
                         mode="time"

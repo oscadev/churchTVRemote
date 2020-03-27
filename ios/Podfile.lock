@@ -231,8 +231,6 @@ PODS:
     - React
   - RNGestureHandler (1.5.3):
     - React
-  - RNOS (1.2.6):
-    - React
   - RNReanimated (1.7.0):
     - React
   - RNScreens (2.0.0-alpha.32):
@@ -276,7 +274,6 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - RNOS (from `../node_modules/react-native-os`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -349,8 +346,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
-  RNOS:
-    :path: "../node_modules/react-native-os"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -393,12 +388,11 @@ SPEC CHECKSUMS:
   RNCMaskedView: e5b99bc191945f157adeede68da9d424462de177
   RNDateTimePicker: 647f891a27a68b44d012fd7c6183844268ab0342
   RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
-  RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
   RNScreens: a55364dc1833101f836cee70975ce1fea615a12f
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 33daed4225d4194b961635d80f5805f61021b510
+PODFILE CHECKSUM: c8bc9f66cab6793ff7bf10fb6f4cecdac2517e88
 
 COCOAPODS: 1.8.4

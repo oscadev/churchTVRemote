@@ -18,6 +18,7 @@ const Scenes = (props) => {
                         <Text style={{color:'white', fontSize:(Dimensions.get('screen').width/18), textAlign:'center', padding:8}}>{e.name}</Text>
                     </View>
                     
+                    
 
                 </TouchableOpacity>
             )
@@ -33,7 +34,7 @@ const Scenes = (props) => {
         props.server.send('SetCurrentScene',{'scene-name':name}).then(data=>{
             console.log('data status right after press: ',data)
             
-        })
+        }).catch(err=>alert("Make sure OBS is running and reconnect."))
     }
 
     React.useEffect(()=>{
@@ -45,9 +46,12 @@ const Scenes = (props) => {
     },[props.data])
 
     return (
-        <View style={{height:"100%"}}>
-            <ScrollView style={styles.scenes}>
-                {sceneDivs}
+        <View style={{height:200, width:Dimensions.get('window').width, borderColor:'yellow', borderWidth:0}}>
+            <ScrollView style={styles.scroll} >
+                <View style={styles.scenes}>
+                    {sceneDivs}
+                </View>
+                
 
 
             </ScrollView>
@@ -59,25 +63,37 @@ const Scenes = (props) => {
 export default Scenes;
 
 const styles = StyleSheet.create({
-    scenes: {
-        // width:'100%',
-        // flexWrap:'wrap',
-        flexDirection:'column',
+    scroll: {
+        width:Dimensions.get('window').width,
+
         height:'100%',
+        backgroundColor:"#1F213F",
 
-
-        borderTopWidth:.5,
+        borderWidth:.5,
         borderColor:'white',
-        borderLeftWidth:.5
+
+    },
+    scenes: {
+        width:Dimensions.get('window').width,
+        // flexWrap:'wrap',
+        flexDirection:'row',
+        flexWrap:'wrap',
+        // height:'100%',
+        justifyContent:'center'
+
+
+
+
     },
     box: {
         justifyContent:'center',
         alignItems:'center',
-        width:"33.33%",
+        width:Dimensions.get('window').width/2 - 16,
         height: 100,
         borderColor: 'white',
-        borderRightWidth:.5,
-        borderBottomWidth:.5
+        borderWidth:.5,
+
+        // margin:4,
 
     },
     active: {

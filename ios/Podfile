@@ -37,7 +37,6 @@ target 'obsremote' do
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
 
-  pod 'RNOS', :path => '../node_modules/react-native-os'
 
   target 'obsremoteTests' do
     inherit! :search_paths

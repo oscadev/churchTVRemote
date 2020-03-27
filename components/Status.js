@@ -23,20 +23,41 @@ export const Status = ({status}) => {
         </View>
     ) 
     }else{
-        return null
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>
+                    Dropped Frames: <Text style={styles.value}>0</Text>
+                </Text>
+                <Text style={styles.title}>
+                    LIVE: <Text style={styles.value}>N/A</Text>
+                </Text>
+                <Text style={styles.title}>
+                    REC: <Text style={styles.value}>N/A</Text>
+                </Text>
+                <Text style={styles.title}>
+                    CPU: <Text style={styles.value}>N/A</Text>
+                </Text>
+                <Text style={styles.title}>
+                    kb/s: <Text style={styles.value}>0</Text>
+                </Text>
+            </View>
+        ) 
     }
     
 }
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:'black',
+        backgroundColor:"#1F213F",
         justifyContent:'center',
-        width:Dimensions.get('screen').width/2
+        alignItems:'center',
+        width:350,
+        padding:32,
+        marginVertical:16
 
     },
     title: {
-        width:150,
+        // width:250,
         padding:4,
         color:'white',
         fontWeight:'bold'

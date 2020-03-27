@@ -7,6 +7,7 @@ import Axios from 'axios';
 import logo from '../assets/logo.png'
 
 
+
 export const LoginScreen = (props) => {
     const [email, setEmail] = React.useState("steve@tipcard.me");
     const [password, setPassword] = React.useState("hello123");
@@ -42,6 +43,10 @@ export const LoginScreen = (props) => {
         }
         
     },[orgId])
+
+    React.useEffect(()=>{
+        
+    },[])
 
 
     return (
@@ -84,8 +89,8 @@ export const LoginScreen = (props) => {
                 <Button icon="" mode="contained" onPress={() => api1(email,password)} style={{backgroundColor:'green', marginTop:16}}>
                     Login
                 </Button>
-                <Button icon="" mode="contained" onPress={() => api1(email,password)} style={{backgroundColor:'green', marginTop:16}}>
-                    ge IP
+                <Button icon="" mode="contained" onPress={() => getIP()} style={{backgroundColor:'green', marginTop:16}}>
+                    get IP
                 </Button>
                 {/* <Image source={logo} style={{width:100, height:120}}/> */}
 

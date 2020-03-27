@@ -5,12 +5,13 @@ import Icon2 from "react-native-vector-icons/MaterialCommunityIcons"
 import logo from '../assets/logo2-white.png'
 
 const Controls = (props) => {
+    console.log("IP IS WWWWWWWWWWWWWWWWWWWW: ", props.ip)
 
     return (
         <View style={styles.container}>
             <View style={styles.bar}>
                 <Image source={logo} resizeMode="contain" style={{width:'70%', height:32, justifyContent:'center', alignItems:'center'}}></Image>
-                <TouchableOpacity style={{marginLeft:'auto', padding:16}} onPress={()=>props.nav.navigate('Scheduler')}>
+                <TouchableOpacity style={{marginLeft:'auto', padding:16}} onPress={()=>props.nav.navigate('Scheduler', {ip:props.ip})}>
                     <Icon
                         name={'settings'}
                         color="#3784c8"
@@ -26,7 +27,7 @@ const Controls = (props) => {
                         color="white"
                         size={25}
                     />
-                    <Text style={styles.text}>{props.streaming?'Press to stop stream':'Start stream'}</Text>
+                    <Text style={styles.text}>{props.streamMessage}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={()=>props.toggle('record')}>
                     <Icon
@@ -34,9 +35,23 @@ const Controls = (props) => {
                         color="white"
                         size={25}
                     />
-                    <Text style={styles.text}>{props.recording?'Press to stop recording':'Start recording'}</Text>
+                    <Text style={styles.text}>{props.recordingMessage}</Text>
                 </TouchableOpacity>
             </View>
+            {/* <View style={[styles.buttons, {height:4}]}>
+                <View style={[styles.button, {heigth: 8, textAlign:'center', justifyContent:'center', alignItems:'center'}]}>
+                    <Text>
+                        {props.streaming?"You are streaming": "You are not streaming"}
+                    </Text>
+                    
+                </View>
+                <View style={[styles.button, {heigth: 8, textAlign:'center', justifyContent:'center', alignItems:'center'}]}>
+                    <Text>
+                        {props.recording?"You are recording": "You are not recording"}
+                    </Text>
+                    
+                </View>
+            </View> */}
             
             
 
