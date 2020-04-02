@@ -240,13 +240,21 @@ zeroconf.on('found', (d) => {
 
                 </View>
                 <Status status={StreamStatus}/>
-                <TouchableOpacity onPress={()=>setServer(new OBSWebSocket)} style={{width:200, backgroundColor:'white', justifyContent:'center', alignItems:'center', padding:8}}>
-                    <Text>
+
+                <View style={{flexDirection:'row'}}>
+                    <TouchableOpacity onPress={()=>setServer(new OBSWebSocket)} style={styles.button}>
+                    <Text style={{color:'darkblue'}}>
                         Reconnect
                     </Text>
                 </TouchableOpacity>
-                <Button title='Click Here To Open Website URL' onPress={ ()=> Linking.openURL('https://reactnativecode.com') } />
+                <TouchableOpacity style={styles.button} onPress={ ()=> Linking.openURL(`https://stream.streamingchurch.tv/stream.php?churchid=${props.navigation.getParam('orgId')}`) } >
+                    <Text style={{color:'darkblue'}}>
+                        View Stream
+                    </Text>
+                </TouchableOpacity>
 
+                </View>
+                
                     
 
 
@@ -273,5 +281,15 @@ const styles = StyleSheet.create({
     body: {
         width: '100%',
         // height:400,
+    },
+    button: {
+        width:100,
+        backgroundColor: 'white',
+        justifyContent:'center',
+        alignItems:'center',
+        height: 32,
+        color: 'blue',
+        borderRadius:5,
+        marginHorizontal:5
     }
 })

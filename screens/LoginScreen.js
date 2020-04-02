@@ -16,7 +16,7 @@ export const LoginScreen = (props) => {
     const api1 = (em, pass) => {
         Axios.get(`https://streamingchurch.tv/streaming/api_admin_login.php?api_key=oscaranguianoapikeyforjslsolutions&admin_email=${em}&password=${pass}`)
         .then(d=>{
-            // console.log(d.data)
+            console.log(d.data)
             if(d.data.status==="success"){
                 setOrgId(d.data.org_id)
             }else{
@@ -31,7 +31,7 @@ export const LoginScreen = (props) => {
         .then(d=>{
             // console.log(d.data)
             if(d.data.status==="success"){
-                props.navigation.navigate('Control', {user:d.data})
+                props.navigation.navigate('Control', {user:d.data, orgId:orgId})
             }
         })
     }
