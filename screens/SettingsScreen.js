@@ -22,9 +22,7 @@ const SettingsScreen = (props) => {
     const getData = () => {
         store.get('schedules')
         .then((res) => {
-            console.log("shcedules arr: ",res, props.navigation.getParam('ip'))
             Axios.post(`http://${props.navigation.getParam('ip')}:3020/schedules`, {"schedules":res}).then(d=>{
-                console.log("Schedules returned from post",d.data)
                 try{
                 if(d.data.length){
                     makeItems(d.data)
@@ -35,7 +33,6 @@ const SettingsScreen = (props) => {
                 
             }
             catch(err){
-                console.log("caught:", err)
             }
 
             })
@@ -49,7 +46,6 @@ const SettingsScreen = (props) => {
     {
         store.get('schedules').then(d=>
             {
-                console.log("OBJ S LIKE 1:",d)
                 let temp = d.filter((e,i)=>
                 {
                     if (index!==i)
@@ -57,7 +53,6 @@ const SettingsScreen = (props) => {
                         return true
                     }
                 })
-                console.log("OBJ S LIKE 2:",temp)
                 store.delete('schedules')
                 .then(async h=>
                     {
@@ -86,7 +81,6 @@ const SettingsScreen = (props) => {
 
     React.useEffect(()=>{
 
-        console.log("THIS SHOULD BE AN IP: =========> :", props.navigation.state.params)
         getData()
 
     },[])
@@ -110,7 +104,6 @@ const SettingsScreen = (props) => {
             </View>)
             
        })
-        console.log("MAKE ITEMS LEGTH: ", temp.length)
 
         setItems(temp)
     }

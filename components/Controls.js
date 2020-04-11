@@ -3,14 +3,29 @@ import {View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, I
 import Icon from "react-native-vector-icons/Feather"
 import Icon2 from "react-native-vector-icons/MaterialCommunityIcons"
 import logo from '../assets/logo2-white.png'
+import store from 'react-native-simple-store';
 
 const Controls = (props) => {
-    console.log("IP IS WWWWWWWWWWWWWWWWWWWW: ", props.ip)
 
     return (
         <View style={styles.container}>
             <View style={styles.bar}>
                 <Image source={logo} resizeMode="contain" style={{width:'70%', height:32, justifyContent:'center', alignItems:'center'}}></Image>
+                <TouchableOpacity style={{marginLeft:'auto', padding:16}} onPress={()=>{
+                    store.delete('login')
+                    .then(d=>
+                        {
+                            props.nav.navigate('Login', {ip:props.ip})
+                        })
+                    }
+                    }>
+                    <Icon
+                        name={'log-out'}
+                        color="#3784c8"
+                        size={25}
+                    />
+
+                </TouchableOpacity>
                 <TouchableOpacity style={{marginLeft:'auto', padding:16}} onPress={()=>props.nav.navigate('Scheduler', {ip:props.ip})}>
                     <Icon
                         name={'settings'}

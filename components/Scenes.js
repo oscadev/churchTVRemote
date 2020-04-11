@@ -10,7 +10,6 @@ const Scenes = (props) => {
 
     const makeScenes = (data) =>{
         let temp = [];
-        console.log('scenes data is: ', data)
         data.scenes.forEach((e,i) => {
             temp.push(
                 <TouchableOpacity key={i} onPress={()=>setScene(e.name)} style={styles.box}>
@@ -32,7 +31,6 @@ const Scenes = (props) => {
 
         setCurrent(name)
         props.server.send('SetCurrentScene',{'scene-name':name}).then(data=>{
-            console.log('data status right after press: ',data)
             
         }).catch(err=>alert("Make sure OBS is running and reconnect."))
     }

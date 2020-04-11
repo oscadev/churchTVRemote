@@ -1,26 +1,42 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput, Button } from 'react-native-paper';
 import Axios from 'axios';
-import logo from '../assets/logo.png'
+import logo from '../assets/logo2-white.png'
+import store from 'react-native-simple-store';
 
 
 
 export const LoginScreen = (props) => {
-    const [email, setEmail] = React.useState("steve@tipcard.me");
-    const [password, setPassword] = React.useState("hello123");
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
     const [orgId, setOrgId] = React.useState('')
+
+    const checkIfLoggedIn = () =>
+    {
+        store.get('login')
+        .then(data=>
+            {
+                if(data)
+                {
+                    api1(data.email, data.password)
+                }
+            })
+    }
 
     const api1 = (em, pass) => {
         Axios.get(`https://streamingchurch.tv/streaming/api_admin_login.php?api_key=oscaranguianoapikeyforjslsolutions&admin_email=${em}&password=${pass}`)
         .then(d=>{
-            console.log(d.data)
             if(d.data.status==="success"){
                 setOrgId(d.data.org_id)
+                store.update('login', {
+                    email:em,
+                    password:pass
+                })
             }else{
                 alert("Incorrect Login")
+                store.delete('login')
             }
             
         })
@@ -29,9 +45,9 @@ export const LoginScreen = (props) => {
     const api2 = (id) => {
         Axios.get(`https://streamingchurch.tv/streaming/api_sctv_credentials.php?api_key=oscaranguianoapikeyforjslsolutions&org_id=${id}`)
         .then(d=>{
-            // console.log(d.data)
             if(d.data.status==="success"){
                 props.navigation.navigate('Control', {user:d.data, orgId:orgId})
+                setOrgId('')
             }
         })
     }
@@ -45,13 +61,24 @@ export const LoginScreen = (props) => {
     },[orgId])
 
     React.useEffect(()=>{
+        checkIfLoggedIn()
         
     },[])
 
 
     return (
-        <LinearGradient style={styles.screen} start={{x: 0, y: 0}} end={{x: 1, y: 1}} colors={['#00258D', 'black']}>
+        <LinearGradient style={styles.screen} start={{x: 0, y: 0}} end={{x: 1, y: 1}} colors={['#3784c8', '#00258D']}>
             <SafeAreaView style={styles.safe}>
+                <View style={{width:'100%',
+        height:64,
+        backgroundColor:'#fbfbfb',
+        justifyContent:'flex-start',
+        alignItems:'center',
+        flexDirection:'row',
+        marginBottom:64}}>
+                   <Image source={logo} resizeMode="contain" style={{width:200,justifyContent:'center', alignItems:'center'}}></Image> 
+                </View>
+            
                 <View style={styles.inputs}>
                     <TextInput
                     
@@ -86,12 +113,10 @@ export const LoginScreen = (props) => {
                     />
                 </View>
                 
-                <Button icon="" mode="contained" onPress={() => api1(email,password)} style={{backgroundColor:'green', marginTop:16}}>
+                <Button icon="" mode="contained" onPress={() => api1(email,password)} style={{backgroundColor:'#3784c8', marginTop:16}}>
                     Login
                 </Button>
-                <Button icon="" mode="contained" onPress={() => getIP()} style={{backgroundColor:'green', marginTop:16}}>
-                    get IP
-                </Button>
+
                 {/* <Image source={logo} style={{width:100, height:120}}/> */}
 
             </SafeAreaView>
