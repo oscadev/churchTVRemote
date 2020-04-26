@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView, Linking } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { TextInput, Button } from 'react-native-paper';
 import Axios from 'axios';
@@ -117,7 +117,11 @@ export const LoginScreen = (props) => {
                     Login
                 </Button>
 
-                {/* <Image source={logo} style={{width:100, height:120}}/> */}
+                <Button style={{margin:64, borderColor:'lightblue', borderWidth:1}} color="white" onPress={()=>Linking.openURL('https://streamingchurch.tv/obs_remote')}>
+                    <Text style={{fontSize:10, color: 'lightblue'}}>
+                        Instructions
+                    </Text>
+                </Button>
 
             </SafeAreaView>
         </LinearGradient>
