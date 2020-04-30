@@ -252,6 +252,11 @@ zeroconf.on('found', (d) => {
                         View Stream
                     </Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={ ()=> Linking.openURL(`https://streamingchurch.tv/obs_remote`) } >
+                    <Text style={{color:'darkblue'}}>
+                        Instructions
+                    </Text>
+                </TouchableOpacity>
 
                 </View>
                 
