@@ -67,7 +67,7 @@
 		11F3040BE0C7494C89CF5868 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		11F9A80EA3B876DD08FAAA88 /* Pods-obsremoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-obsremoteTests.debug.xcconfig"; path = "Target Support Files/Pods-obsremoteTests/Pods-obsremoteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		12E8B42C0CF3424FB6186CB0 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* obsremote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = obsremote.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Streaming Church Remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Streaming Church Remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = obsremote/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = obsremote/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -224,7 +224,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* obsremote.app */,
+				13B07F961A680F5B00A75B9A /* Streaming Church Remote.app */,
 				00E356EE1AD99517003FC87E /* obsremoteTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* obsremote-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* obsremote-tvOSTests.xctest */,
@@ -295,7 +295,7 @@
 			);
 			name = obsremote;
 			productName = obsremote;
-			productReference = 13B07F961A680F5B00A75B9A /* obsremote.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Streaming Church Remote.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2D02E47A1E0B4A5D006451C7 /* obsremote-tvOS */ = {
@@ -348,11 +348,13 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 2HV3AS5QWT;
+						DevelopmentTeam = FB572RUM66;
+						ProvisioningStyle = Manual;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 2HV3AS5QWT;
+						DevelopmentTeam = FB572RUM66;
+						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -713,8 +715,10 @@
 			baseConfigurationReference = 11F9A80EA3B876DD08FAAA88 /* Pods-obsremoteTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
-				DEVELOPMENT_TEAM = 2HV3AS5QWT;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = FB572RUM66;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -729,7 +733,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/obsremote.app/obsremote";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Streaming Church Remote.app/Streaming Church Remote";
 			};
 			name = Debug;
 		};
@@ -738,8 +744,9 @@
 			baseConfigurationReference = BF3CF72D0D22CD6CE9BC037D /* Pods-obsremoteTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 2HV3AS5QWT;
+				DEVELOPMENT_TEAM = FB572RUM66;
 				INFOPLIST_FILE = obsremoteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -750,7 +757,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/obsremote.app/obsremote";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Streaming Church Remote.app/Streaming Church Remote";
 			};
 			name = Release;
 		};
@@ -759,9 +768,11 @@
 			baseConfigurationReference = 8CBEA679D4591BA71A9204EB /* Pods-obsremote.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Distribution: JSL Solutions LLC (FB572RUM66)";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 2HV3AS5QWT;
+				DEVELOPMENT_TEAM = FB572RUM66;
 				INFOPLIST_FILE = obsremote/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -769,8 +780,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactnative.obsremote;
-				PRODUCT_NAME = obsremote;
+				PRODUCT_BUNDLE_IDENTIFIER = tv.streamingchurch.remote;
+				PRODUCT_NAME = "Streaming Church Remote";
+				PROVISIONING_PROFILE_SPECIFIER = StreamingChurchRemote;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -780,8 +793,10 @@
 			baseConfigurationReference = 70A626FD16A782CDDAF41510 /* Pods-obsremote.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Distribution: JSL Solutions LLC (FB572RUM66)";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2HV3AS5QWT;
+				DEVELOPMENT_TEAM = FB572RUM66;
 				INFOPLIST_FILE = obsremote/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -789,8 +804,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactnative.obsremote;
-				PRODUCT_NAME = obsremote;
+				PRODUCT_BUNDLE_IDENTIFIER = tv.streamingchurch.remote;
+				PRODUCT_NAME = "Streaming Church Remote";
+				PROVISIONING_PROFILE_SPECIFIER = StreamingChurchRemote;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
