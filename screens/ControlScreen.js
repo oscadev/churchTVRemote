@@ -21,7 +21,7 @@ const ControlPanel = (props) => {
     const [isStreaming, setIsStreaming] = React.useState(false);
     const [isRecording, setIsRecording] = React.useState(false);
     const [user, setUser] = React.useState(null);
-    const [ip, setIp] = React.useState(null)
+    const [ip, setIp] = React.useState('localhost')
     const [reloadButton, setReloadButton] = React.useState([])
     const obspass = '123456'
     const [streamMessage, setStreamMessage] = React.useState('Start Stream')
@@ -77,7 +77,7 @@ zeroconf.on('found', (d) => {
         // console.log("OBJ OBJECT BEFORE SENT",objSend.settings)
         server.send('SetStreamSettings', objSend).then(d=>{
             // console.log("SETTINGS RETURERNED AFTER CHANGED:", d)
-            server.send('SaveStreamSettings')}).catch(err=>alert("Make sure OBS is running and reconnect."))
+            server.send('SaveStreamSettings')}).catch(err=>alert('Make sure OBS is running and press "reconnect".'))
     }
 
 
@@ -121,7 +121,8 @@ zeroconf.on('found', (d) => {
 
                         break;
                     case "Connection error.":
-                        alert('Make sure that OBS is running')
+                        alert('Make sure that OBS and SCTV Desktop App are running, and press "reconnect" to try again.')
+
                         
                         break;
                     
@@ -205,19 +206,19 @@ zeroconf.on('found', (d) => {
     const getScenes = (s) => {
         s.send('GetSceneList').then(d=>{
             setSceneData(d)
-        }).catch(err=>alert("Make sure OBS is running and reconnect."))
+        }).catch(err=>alert('Make sure that OBS and SCTV Desktop App are running, and press "reconnect" to try again.'))
     }
 
     const toggleStreamRecord = (type) => {
         if(type==="stream"){
             server.send('StartStopStreaming').then(d=>{
 
-            }).catch(err=>alert("Make sure OBS is running and reconnect."))
+            }).catch(err=>alert('Make sure that OBS and SCTV Desktop App are running, and press "reconnect" to try again.'))
         }
         else if(type==="record"){
             server.send('StartStopRecording').then(d=>{
                 
-            }).catch(err=>alert("Make sure OBS is running and reconnect."))
+            }).catch(err=>alert('Make sure that OBS and SCTV Desktop App are running, and press "reconnect" to try again.'))
         }
     }
 
@@ -226,7 +227,7 @@ zeroconf.on('found', (d) => {
         <StatusBar barStyle="dark-content"/>
         <SafeAreaView>
             <LinearGradient style={styles.controlPanel} start={{x: 0, y: 0}} end={{x: 1, y: 1}} colors={['#1b4264', '#3784c8']}>
-                <Controls 
+                {server?<><Controls 
                 streamMessage={streamMessage}
                 recordingMessage={recordingMessage}
                 nav={props.navigation} 
@@ -241,6 +242,9 @@ zeroconf.on('found', (d) => {
                 </View>
                 <Status status={StreamStatus}/>
 
+                </>:<View style={styles.message}><Text style={styles.messageTxt}><Text style={{color:'red', fontSize:32}}>CANNOT FIND OBS </Text>Please make sure that the SCTV Desktop App and OBS are running, and then press "Reconnect". If you need help, press "Instructions".</Text>
+                    </View>}
+                
                 <View style={{flexDirection:'row'}}>
                     <TouchableOpacity onPress={()=>setServer(new OBSWebSocket)} style={styles.button}>
                     <Text style={{color:'darkblue'}}>
@@ -259,7 +263,6 @@ zeroconf.on('found', (d) => {
                 </TouchableOpacity>
 
                 </View>
-                
                     
 
 
@@ -296,5 +299,22 @@ const styles = StyleSheet.create({
         color: 'blue',
         borderRadius:5,
         marginHorizontal:5
+    },
+    message: {
+        width:'95%',
+        backgroundColor:'white',
+        justifyContent:'center',
+        alignItems:'center',
+        margin:64,
+        borderRadius:5,
+
+    },
+    messageTxt: {
+        fontSize:24,
+        justifyContent:'center',
+        alignItems:'center',
+        padding:18,
+        textAlign:'center',
+        color: 'grey'
     }
 })

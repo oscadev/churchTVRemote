@@ -34,8 +34,8 @@ const SettingsScreen = (props) => {
             }
             catch(err){
             }
-
-            })
+                alert('To add scheduled events, this app needs the SCTV Desktop App. Make sure it is installed and running on the same computer that has OBS, and try again.')
+            }).catch(err=>alert('To add scheduled events, this app needs the SCTV Desktop App. Make sure it is installed and running on the same computer that has OBS, and try again.'))
             
         }
             
