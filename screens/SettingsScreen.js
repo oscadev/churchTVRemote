@@ -34,7 +34,6 @@ const SettingsScreen = (props) => {
             }
             catch(err){
             }
-                alert('To add scheduled events, this app needs the SCTV Desktop App. Make sure it is installed and running on the same computer that has OBS, and try again.')
             }).catch(err=>alert('To add scheduled events, this app needs the SCTV Desktop App. Make sure it is installed and running on the same computer that has OBS, and try again.'))
             
         }
@@ -206,7 +205,7 @@ const SettingsScreen = (props) => {
                     
                     <View style={{backgroundColor:'white', width:(Dimensions.get('screen').width-100)/2}} >
                         <DateTimePicker 
-                    //  minuteInterval={15}
+                        minuteInterval={15}
                         value={time} 
                         onChange={(e,d)=>setTime(d)} 
                         mode="time"
@@ -214,10 +213,10 @@ const SettingsScreen = (props) => {
                         />
 
                     </View>
-                    <View style={{backgroundColor:'#E3E3E3', width:(Dimensions.get('screen').width-100)/2}} >
+                    <View style={{backgroundColor:'white', width:(Dimensions.get('screen').width-100)/2}} >
                         <DateTimePicker 
                         style={{color:'red'}}
-                    //  minuteInterval={15}
+                         minuteInterval={15}
                         value={endTime} 
                         onChange={(e,d)=>setEndTime(d)} 
                         mode="time"
