@@ -1,8 +1,8 @@
 import React from 'react'
-import { View, Text, Switch, Modal, Button, Picker, Dimensions } from 'react-native';
+import { View, Text, Switch, Modal, Button, Picker, Dimensions, TouchableOpacity } from 'react-native';
 import moment from 'moment'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
 import DateTimePicker from '@react-native-community/datetimepicker';
 import LinearGradient from 'react-native-linear-gradient';
 import store from 'react-native-simple-store';
@@ -147,6 +147,7 @@ const SettingsScreen = (props) => {
             
 
             <Modal visible={modal} animationType='slide' transparent>
+
                 <View style={{height:'100%', justifyContent:'flex-end', alignItems:'center',backgroundColor:'#1F213F'}}> 
                     <View style={{height:'100%'}} onTouchStart={()=>setModal(!modal)}></View>
 
@@ -158,7 +159,7 @@ const SettingsScreen = (props) => {
                     </View>
 
                     <View style={{flexDirection:'row', width: "100%", justifyContent:'space-between', marginVertical:64, width:320}}>
-                            <TouchableOpacity onPress={()=>setModal(!modal)} containerStyle={{width:150, height:32, justifyContent:'center', alignItems:'center', backgroundColor:'red'}}>
+                            <TouchableOpacity onPress={()=>setModal(!modal)} containerStyle={{width:150, height:32, justifyContent:'center', alignItems:'center', backgroundColor:'green'}}>
                                 <Text style={{color:'white'}}>
                                     CANCEL
                                 </Text>
@@ -201,9 +202,26 @@ const SettingsScreen = (props) => {
                             <Picker.Item label="Friday" value="Friday" />
                             <Picker.Item label="Saturday" value="Saturday" />
                         </Picker>
+                        
+                    </View>
+                    <View style={{backgroundColor:'white', width:(Dimensions.get('screen').width-100)/2}} >
+                        <Picker
+                            selectedValue={day}
+
+                            onValueChange={(itemValue, itemIndex) =>
+                                setDay(itemValue)
+                            }>
+                            <Picker.Item label="Sunday" value="Sunday"/>
+                            <Picker.Item label="Monday" value="Monday" />
+                            <Picker.Item label="Tuesday" value="Tuesday" />
+                            <Picker.Item label="Wednesday" value="Wednesday" />
+                            <Picker.Item label="Thursday" value="Thursday" />
+                            <Picker.Item label="Friday" value="Friday" />
+                            <Picker.Item label="Saturday" value="Saturday" />
+                        </Picker>
                     </View>
                     
-                    <View style={{backgroundColor:'white', width:(Dimensions.get('screen').width-100)/2}} >
+                    {/* <View style={{backgroundColor:'white', width:(Dimensions.get('screen').width-100)/2}} >
                         <DateTimePicker 
                         minuteInterval={15}
                         value={time} 
@@ -224,7 +242,7 @@ const SettingsScreen = (props) => {
                         
                         />
 
-                    </View>
+                    </View> */}
 
                     </View>
                     

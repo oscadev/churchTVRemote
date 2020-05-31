@@ -8,7 +8,7 @@ import Controls from '../components/Controls';
 import { Status } from '../components/Status';
 import store from 'react-native-simple-store';
 import Axios from 'axios';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 
 
 const zeroconf = new Zeroconf()
@@ -120,11 +120,11 @@ zeroconf.on('found', (d) => {
                         </TouchableOpacity>)
 
                         break;
-                    case "Connection error.":
-                        alert('Make sure that OBS and SCTV Desktop App are running, and press "reconnect" to try again.')
+                    // case "Connection error.":
+                    //     alert('erver connect Make sure that OBS and SCTV Desktop App are running, and press "reconnect" to try again.')
 
                         
-                        break;
+                    //     break;
                     
                 }
             })
@@ -206,7 +206,7 @@ zeroconf.on('found', (d) => {
     const getScenes = (s) => {
         s.send('GetSceneList').then(d=>{
             setSceneData(d)
-        }).catch(err=>alert('Make sure that OBS and SCTV Desktop App are running, and press "reconnect" to try again.'))
+        }).catch(err=>alert('get scenes Make sure that OBS and SCTV Desktop App are running, and press "reconnect" to try again.'))
     }
 
     const toggleStreamRecord = (type) => {
@@ -226,6 +226,7 @@ zeroconf.on('found', (d) => {
         <>
         <StatusBar barStyle="dark-content"/>
         <SafeAreaView>
+            <ScrollView>
             <LinearGradient style={styles.controlPanel} start={{x: 0, y: 0}} end={{x: 1, y: 1}} colors={['#1b4264', '#3784c8']}>
                 {server?<><Controls 
                 streamMessage={streamMessage}
@@ -245,7 +246,7 @@ zeroconf.on('found', (d) => {
                 </>:<View style={styles.message}><Text style={styles.messageTxt}><Text style={{color:'red', fontSize:32}}>CANNOT FIND OBS </Text>Please make sure that the SCTV Desktop App and OBS are running, and then press "Reconnect". If you need help, press "Instructions".</Text>
                     </View>}
                 
-                <View style={{flexDirection:'row'}}>
+                <View style={{flexDirection:'row', marginBottom:64}}>
                     <TouchableOpacity onPress={()=>setServer(new OBSWebSocket)} style={styles.button}>
                     <Text style={{color:'darkblue'}}>
                         Reconnect
@@ -270,6 +271,7 @@ zeroconf.on('found', (d) => {
                 
                  
             </LinearGradient>
+            </ScrollView>
         </SafeAreaView>
         </>
     )
@@ -281,6 +283,7 @@ const styles = StyleSheet.create({
     controlPanel: {
 
          justifyContent:'flex-start',
+
 
          alignItems:'center',
          minHeight:'100%'

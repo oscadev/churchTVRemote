@@ -27,9 +27,6 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  if (@available(iOS 13.0, *)) {
-    self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-  }
   return YES;
 }
 
