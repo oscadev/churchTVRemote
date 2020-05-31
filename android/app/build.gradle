@@ -179,9 +179,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-tcp')
-    implementation project(':react-native-network-info')
-    implementation project(':react-native-os')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
