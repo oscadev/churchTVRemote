@@ -14,10 +14,25 @@ const SettingsScreen = (props) => {
     const [type, setType] = React.useState(null)
     const [time, setTime] = React.useState(new Date('December 17, 2020 10:00:00'));
     const [endTime, setEndTime] = React.useState(new Date('December 17, 2020 11:30:00'));
+    const [howLong, setHowLong] = React.useState(30)
     const [day, setDay] = React.useState('Sunday')
     const [modal, setModal] = React.useState(false)
+    const [start, setStart] = React.useState(new Date('December 17, 2020 8:30:00'))
+    const [startVal, setStartVal] = React.useState("8:30")
 
 
+    const makePickerItems = () =>
+    {
+        let temp = []
+        for(let i = 8; i<23; i++)
+        {
+
+
+            temp.push(<Picker.Item key={i} label={`${i>12?i-12:i}:00 ${i>11?"pm":"am"}`} value={`${i}:00`}/>)
+            temp.push(<Picker.Item key={i+1000} label={`${i>12?i-12:i}:30 ${i>11?"pm":"am"}`} value={`${i}:30`}/>)
+        }
+        return temp
+    }
 
     const getData = () => {
         store.get('schedules')
@@ -153,19 +168,19 @@ const SettingsScreen = (props) => {
 
                     <View style={{width:"90%", backgroundColor:'white', height:64, justifyContent:'center', alignItems:'center'}}>
                         <Text>
-                            Every {day} from {moment(time).format("hh:mm a")} to {moment(endTime).format("hh:mm a")}
+                            Every {day} from {moment(start).format("hh:mm a")} to {moment(start).add(howLong, 'minutes').format("hh:mm a")}
                         </Text>
 
                     </View>
 
                     <View style={{flexDirection:'row', width: "100%", justifyContent:'space-between', marginVertical:64, width:320}}>
                             <TouchableOpacity onPress={()=>setModal(!modal)} containerStyle={{width:150, height:32, justifyContent:'center', alignItems:'center', backgroundColor:'green'}}>
-                                <Text style={{color:'white'}}>
+                                <Text style={{color:'red'}}>
                                     CANCEL
                                 </Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>saveSchedule({type:type, day:day, start:time, end:endTime})} containerStyle={{width:150, height:32, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
-                                <Text style={{color:'black'}}>
+                            <TouchableOpacity onPress={()=>saveSchedule({type:type, day:day, start:start, end:moment(start).add(howLong, 'minutes')})} containerStyle={{width:150, height:32, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
+                                <Text style={{color:'green'}}>
                                     SAVE
                                 </Text>
                             </TouchableOpacity>
@@ -177,10 +192,10 @@ const SettingsScreen = (props) => {
                             Day 
                         </Text>
                         <Text style={{color:'white', width:(Dimensions.get('screen').width-100)/2}}>
-                            Beginning
+                            Starts at
                         </Text>
                         <Text style={{color:'white'}}>
-                            Ending
+                            How long?
                         </Text>
                        
                         
@@ -206,18 +221,67 @@ const SettingsScreen = (props) => {
                     </View>
                     <View style={{backgroundColor:'white', width:(Dimensions.get('screen').width-100)/2}} >
                         <Picker
-                            selectedValue={day}
+                            selectedValue={startVal}
 
                             onValueChange={(itemValue, itemIndex) =>
-                                setDay(itemValue)
+                                {
+
+                                    setStart(new Date(`December 17, 2020 ${itemValue}`))
+                                    setStartVal(itemValue)
+                            }
                             }>
-                            <Picker.Item label="Sunday" value="Sunday"/>
-                            <Picker.Item label="Monday" value="Monday" />
-                            <Picker.Item label="Tuesday" value="Tuesday" />
-                            <Picker.Item label="Wednesday" value="Wednesday" />
-                            <Picker.Item label="Thursday" value="Thursday" />
-                            <Picker.Item label="Friday" value="Friday" />
-                            <Picker.Item label="Saturday" value="Saturday" />
+                                {makePickerItems()}
+                            {/* <Picker.Item label="8:00 am" value={"8:00"}/>
+                            <Picker.Item label="8:30 am" value={"8:30"}/> */}
+                            {/* <Picker.Item label="9:00 am" value={new Date('December 17, 2020 09:00')}/>
+                            <Picker.Item label="9:30 am" value={new Date('December 17, 2020 09:30')}/>
+                            <Picker.Item label="10:00 am" value={new Date('December 17, 2020 10:00:00')}/>
+                            <Picker.Item label="10:30 am" value={new Date('December 17, 2020 10:30')}/>
+                            <Picker.Item label="11:00 am" value={new Date('December 17, 2020 11:00')}/>
+                            <Picker.Item label="11:30 am" value={new Date('December 17, 2020 11:30')}/>
+                            <Picker.Item label="12:00 pm" value={new Date('December 17, 2020 12:00')}/>
+                            <Picker.Item label="12:30 pm" value={new Date('December 17, 2020 12:30')}/>
+                            <Picker.Item label="1:00 pm" value={new Date('December 17, 2020 13:00')}/>
+                            <Picker.Item label="1:30 pm" value={new Date('December 17, 2020 13:30')}/>
+                            <Picker.Item label="2:00 pm" value={new Date('December 17, 2020 14:00')}/>
+                            <Picker.Item label="2:30 pm" value={new Date('December 17, 2020 14:30')}/>
+                            <Picker.Item label="3:00 pm" value={new Date('December 17, 2020 15:00')}/>
+                            <Picker.Item label="3:30 pm" value={new Date('December 17, 2020 15:30')}/>
+                            <Picker.Item label="4:00 pm" value={new Date('December 17, 2020 16:00')}/>
+                            <Picker.Item label="4:30 pm" value={new Date('December 17, 2020 16:30')}/>
+                            <Picker.Item label="5:00 pm" value={new Date('December 17, 2020 17:00')}/>
+                            <Picker.Item label="5:30 pm" value={new Date('December 17, 2020 17:30')}/>
+                            <Picker.Item label="6:00 pm" value={new Date('December 17, 2020 18:00')}/>
+                            <Picker.Item label="6:30 pm" value={new Date('December 17, 2020 18:30')}/>
+                            <Picker.Item label="7:00 pm" value={new Date('December 17, 2020 19:00')}/>
+                            <Picker.Item label="7:30 pm" value={new Date('December 17, 2020 19:30')}/>
+                            <Picker.Item label="8:00 pm" value={new Date('December 17, 2020 20:00')}/>
+                            <Picker.Item label="8:30 pm" value={new Date('December 17, 2020 20:00')}/>
+                            <Picker.Item label="9:00 pm" value={new Date('December 17, 2020 21:00')}/>
+                            <Picker.Item label="9:30 pm" value={new Date('December 17, 2020 21:00')}/>
+                            <Picker.Item label="10:00 pm" value={new Date('December 17, 2020 22:00')}/>
+                            <Picker.Item label="10:30 pm" value={new Date('December 17, 2020 22:00')}/>
+                            <Picker.Item label="11:00 pm" value={new Date('December 17, 2020 23:00')}/>
+                            <Picker.Item label="11:30 pm" value={new Date('December 17, 2020 23:00')}/>
+                            <Picker.Item label="12:00 am" value={new Date('December 17, 2020 00:00')}/>
+                            <Picker.Item label="12:30 am" value={new Date('December 17, 2020 00:00')}/> */}
+                        </Picker>
+                    </View>
+                    <View style={{backgroundColor:'white', width:(Dimensions.get('screen').width-100)/2}} >
+                        <Picker
+                            selectedValue={howLong}
+
+                            onValueChange={(itemValue, itemIndex) =>
+                                setHowLong(itemValue)
+                            }>
+                            <Picker.Item label="30 min" value="30"/>
+                            <Picker.Item label="1 hr" value="60" />
+                            <Picker.Item label="1.5 hr" value="90" />
+                            <Picker.Item label="2 hr" value="120" />
+                            <Picker.Item label="2.5 hr" value="150" />
+                            <Picker.Item label="3 hr" value="180" />
+                            <Picker.Item label="3.5 hr" value="210" />
+                            <Picker.Item label="4 hr" value="240" />
                         </Picker>
                     </View>
                     
