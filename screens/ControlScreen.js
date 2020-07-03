@@ -1,6 +1,6 @@
 import React from 'react';
 import Zeroconf from 'react-native-zeroconf'
-import {View, Text, SafeAreaView, ActivityIndicator, StyleSheet, StatusBar, Button, Linking} from 'react-native';
+import {View, Text, SafeAreaView, ActivityIndicator, StyleSheet, StatusBar, Button, Linking, Modal, Dimensions, TouchableOpacity} from 'react-native';
 import OBSWebSocket from 'obs-websocket-js';
 import Scenes from '../components/Scenes';
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,7 +8,8 @@ import Controls from '../components/Controls';
 import { Status } from '../components/Status';
 import store from 'react-native-simple-store';
 import Axios from 'axios';
-import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
+import { TextInput } from 'react-native-paper';
 
 
 const zeroconf = new Zeroconf()
@@ -21,11 +22,13 @@ const ControlPanel = (props) => {
     const [isStreaming, setIsStreaming] = React.useState(false);
     const [isRecording, setIsRecording] = React.useState(false);
     const [user, setUser] = React.useState(null);
-    const [ip, setIp] = React.useState('localhost')
+    const [ip, setIp] = React.useState(null)
     const [reloadButton, setReloadButton] = React.useState([])
     const obspass = '123456'
     const [streamMessage, setStreamMessage] = React.useState('Start Stream')
     const [recordingMessage, setRecordingMessage] = React.useState('Start Recording')
+    const [IPModal, setIPModal] = React.useState(false)
+    const [IPInput, setIPInput] = React.useState('')
 
 
     
@@ -33,19 +36,41 @@ const ControlPanel = (props) => {
         // Axios.get(`${ip}:3020/schedules`).then(d=>console.log(d))
     }
 
+    const androidIP = () => {
+
+        store.get('IP')
+        .then((res) =>{
+        console.log("Res to IP is: ", res)
+        if(res===null){
+            setIPModal(true)
+        }
+        else {
+            setIp(res)
+            // setIPModal(true)
+        }
+    
+    }
+)
+    }
+
     //GET IP
     React.useEffect(()=>{
 
-        zeroconf.scan(type = 'http', protocol = 'tcp', domain = 'local.')
-zeroconf.on('start', () => console.log('The scan has started.'))
-zeroconf.on('found', (d) => {
-    console.log(d, d.slice(0,3))
-    if(d.slice(0,3) === "OBS"){
-        console.log(d.slice(6).split(' ').join('.'))
-        setIp(d.slice(6).split(' ').join('.'))
-    }
-    zeroconf.stop()
-})
+        androidIP()
+
+//         zeroconf.scan(type = 'http', protocol = 'tcp', 
+//         domain = 'local.'
+//         )
+// zeroconf.on('start', () => console.log('The scan has started.'))
+// zeroconf.on('resolved', (d) => {
+//     console.log('FOUND A THING: '. d)
+//     console.log(d, d.slice(0,3))
+//     if(d.slice(0,3) === "OBS"){
+//         console.log(d.slice(6).split(' ').join('.'))
+//         setIp(d.slice(6).split(' ').join('.'))
+//     }
+//     zeroconf.stop()
+// })
                 
 
 
@@ -55,6 +80,7 @@ zeroconf.on('found', (d) => {
     React.useEffect(()=>{
         if(ip){
             // console.log('USER PARAM', props.navigation.getParam('user'))
+            console.log("this should run only once")
             setUser(props.navigation.getParam('user'))
             setServer(new OBSWebSocket) 
         }
@@ -108,26 +134,29 @@ zeroconf.on('found', (d) => {
                 })
                 
             })
-            .catch(err => {
-                console.log("ERROR IN CATCH IS:" , err.error)
-                switch (err.error){
-                    case "Authentication Failed.":
-                        alert("Change password to: " + props.navigation.getParam('user').password)
-                        setReloadButton(<TouchableOpacity onPress={()=>setServer(new OBSWebSocket)}>
-                            <Text>
-                                Try Again
-                            </Text>
-                        </TouchableOpacity>)
+            .catch(err=>{
+                setIPModal(true)
+                console.log("OH NOES!!!!!!!")})
+            // .catch(err => {
+            //     console.log("ERROR IN CATCH IS:" , err.error)
+            //     switch (err.error){
+            //         case "Authentication Failed.":
+            //             alert("Change password to: " + props.navigation.getParam('user').password)
+            //             setReloadButton(<TouchableOpacity onPress={()=>setServer(new OBSWebSocket)}>
+            //                 <Text>
+            //                     Try Again
+            //                 </Text>
+            //             </TouchableOpacity>)
 
-                        break;
-                    // case "Connection error.":
-                    //     alert('erver connect Make sure that OBS and SCTV Desktop App are running, and press "reconnect" to try again.')
+            //             break;
+            //         // case "Connection error.":
+            //         //     alert('erver connect Make sure that OBS and SCTV Desktop App are running, and press "reconnect" to try again.')
 
                         
-                    //     break;
+            //         //     break;
                     
-                }
-            })
+            //     }
+            // })
             
             
 
@@ -226,6 +255,36 @@ zeroconf.on('found', (d) => {
         <>
         <StatusBar barStyle="dark-content"/>
         <SafeAreaView>
+            <Modal
+                style={{justifyContent:'center', alignItems:'center', width:Dimensions.get('screen').width, backgroundColor:'blue'}}
+                animationType="slide"
+                transparent={false}
+                visible={IPModal}
+
+            >
+                <View style={styles.modal}>
+                    <Text style={{color:'white', fontSize:24, textAlign:'center', padding:32}}>Enter the IP Address for the OBS Computer</Text>
+                    <TextInput keyboardType="number-pad" value={IPInput} onChangeText={(e)=>setIPInput(e)} style={styles.ipInput} placeholder="example: 192.168.1.1"></TextInput>
+                    <TouchableOpacity 
+                        style={{width:84,height:32, backgroundColor:'white', justifyContent:'center', alignItems:'center', borderRadius:5, margin:8}}
+                        onPress={()=>{
+                            store.update('IP', IPInput)
+                            setIPModal(false)
+                            setIp(IPInput)}}>
+                        <Text>Submit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={{width:84,height:32, backgroundColor:'red', justifyContent:'center', alignItems:'center', borderRadius:5, margin:8}}
+                        onPress={()=>{
+                            setIPModal(false)
+}}>
+                        <Text>Cancel</Text>
+                    </TouchableOpacity>
+
+                </View>
+                
+            
+            </Modal>
             <ScrollView>
             <LinearGradient style={styles.controlPanel} start={{x: 0, y: 0}} end={{x: 1, y: 1}} colors={['#1b4264', '#3784c8']}>
                 {server?<><Controls 
@@ -319,5 +378,15 @@ const styles = StyleSheet.create({
         padding:18,
         textAlign:'center',
         color: 'grey'
+    },
+    modal: {
+        paddingVertical:100,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:'blue'
+    },
+    ipInput : {
+        width:250,
+        height:32
     }
 })
