@@ -1,5 +1,5 @@
 import React from 'react';
-import Zeroconf from 'react-native-zeroconf'
+// import Zeroconf from 'react-native-zeroconf'
 import {View, Text, SafeAreaView, ActivityIndicator, StyleSheet, StatusBar, Button, Linking, Modal, Dimensions, TouchableOpacity} from 'react-native';
 import OBSWebSocket from 'obs-websocket-js';
 import Scenes from '../components/Scenes';
@@ -12,7 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { TextInput } from 'react-native-paper';
 
 
-const zeroconf = new Zeroconf()
+// const zeroconf = new Zeroconf()
 
 
 const ControlPanel = (props) => {
@@ -122,7 +122,7 @@ const ControlPanel = (props) => {
             
             server.connect({ address:`${ip}:4444`, password: props.navigation.getParam('user').password })
             .then(d=>{
-                console.log(props.navigation.getParam('user'))
+                console.log("STAGE 2 @()@#()@#()@#()@#()@#()@#()@$()@#()$@#$_)@(#$_)(@#$_)(@#$)_@#$)(@#$)_(@#$")
                 setStream(props.navigation.getParam('user'))
                 listenAll()
                 getAll(server)
